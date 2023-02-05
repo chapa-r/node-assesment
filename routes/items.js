@@ -11,16 +11,16 @@ router.get("/items", (req, res) => {
 });
 
 router.get("/items/:id", (req, res) => {
-  console.log("sdsdsd");
-  const item = Item.findOne(req.params.Id);
-  if(!item) {
-    return res.status(404).json("Item not found");
-  }
-
-  Item.findOne(req.params.Id)
-    .then((items) => res.status(200).json(items))
-    .catch((err) => res.status(400).json("Error" + err));
-});
+    console.log("sdsdsd");
+    const item = Item.findOne(req.params.Id).get();
+    if(!item) {
+      return res.status(404).json("Item not found");
+    }
+  
+    Item.findOne(req.params.Id)
+      .then((items) => res.status(200).json(items))
+      .catch((err) => res.status(400).json("Error" + err));
+  });
 
 router.post("/items", (req, res) => {
     console.log("sdsdsd");
@@ -53,9 +53,9 @@ router.post("/items", (req, res) => {
       .catch((err) => res.status(404).json("Error" + err));
   });
 
-  
+
 router.delete("/items/:id", (req, res) => {
-    const item = Item.findOne(req.params.Id);
+    const item = Item.findOne(req.params.Id).get();
     if(!item) {
         return res.status(404).json("Item doesn't exist");
     }
