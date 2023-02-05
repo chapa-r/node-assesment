@@ -3,14 +3,14 @@ const router = express.Router();
 const Item = require("../models/itemData");
 
 //Routes
-router.get("/api/items", (req, res) => {
+router.get("/items", (req, res) => {
   console.log("sdsdsd");
   Item.find()
     .then((items) => res.status(200).json(items))
     .catch((err) => res.status(400).json("Error" + err));
 });
 
-router.get('/api/items/:id', (req, res) => {
+router.get('/items/:id', (req, res) => {
     const item = items.find(i => i.id === parseInt(req.params.id));
     if(!item) return res.status(404).send('Item not found'); //status 400
  
@@ -20,7 +20,7 @@ router.get('/api/items/:id', (req, res) => {
  });
 
 
-router.post("/api/items", (req, res) => {
+router.post("/items", (req, res) => {
     console.log("sdsdsd");
     const items = new Item({
       Id: req.body.Id,
@@ -35,7 +35,7 @@ router.post("/api/items", (req, res) => {
       .catch((err) => res.status(400).json("Error:" + err));
   });
 
-router.put("/api/items/:id", (req, res) => {
+router.put("/items/:id", (req, res) => {
     Item.findById(req.params.Id)
     .then((items) => {
         items.Name = req.body.Name,
@@ -51,15 +51,11 @@ router.put("/api/items/:id", (req, res) => {
     .catch((err) => res.status(404).json("Error" + err));
 });
 
-router.delete("/api/items/:id", (req, res) => {
+router.delete("/items/:id", (req, res) => {
   Item.findByIdAndDelete(req.params.Id)
     .then(() => res.status(204).json("Item delted"))
     .catch((err) => res.status(400).json("Error" + err));
 });
-
-
-
-
 
 
 module.exports = router;
