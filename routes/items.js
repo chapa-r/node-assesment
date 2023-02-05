@@ -25,7 +25,6 @@ router.get("/items/:id", (req, res) => {
 router.post("/items", (req, res) => {
     console.log("sdsdsd");
     const items = new Item({
-      Id: req.body.Id,
       Name: req.body.Name,
       Description: req.body.Description,
       Price: req.body.Price,
