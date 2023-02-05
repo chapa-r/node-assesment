@@ -10,18 +10,17 @@ router.get("/items", (req, res) => {
     .catch((err) => res.status(400).json("Error" + err));
 });
 
-router.get('/items/:id', (req, res) => {
-    Item.findById(req.params.Id)
-    .then((items) => {
-        res.status(200).json(items);
-        if (!items)
-        res.status(404).send({message: "Item not found"});
-        
-    })
-    .catch((err) => res.status(400).json("Error:" + err))
- 
- });
+router.get("/items/:id", (req, res) => {
+  console.log("sdsdsd");
+  const item = Item.findOne(req.params.Id);
+  if(!item) {
+    return res.status(404).json("Item not found");
+  }
 
+  Item.findOne(req.params.Id)
+    .then((items) => res.status(200).json(items))
+    .catch((err) => res.status(400).json("Error" + err));
+});
 
 router.post("/items", (req, res) => {
     console.log("sdsdsd");
@@ -47,19 +46,27 @@ router.post("/items", (req, res) => {
           (items.Price = req.body.Price),
           (items.Quantity = req.body.Quantity),
           items
-           .save()
+            .save()
             .then(() => res.status(200).json("Item updated"))
             .catch((err) => res.status(400).json("Error" + err));
       })
       .catch((err) => res.status(404).json("Error" + err));
   });
 
-  router.delete("/items/:id", (req, res) => {
-    Item.findByIdAndDelete(req.params.Id)
-    if(!Item) return res.status(404).json("Item not found")
-      .then(() => res.status(204).json("Item delted"))
-      .catch((err) => res.status(400).json("Error" + err));
-  });
+  
+router.delete("/items/:id", (req, res) => {
+    const item = Item.findOne(req.params.Id);
+    if(!item) {
+        return res.status(404).json("Item doesn't exist");
+    }
+
+  Item.findOneAndRemove(req.params.Id)
+    .then(() => res.status(204).json("Item delted"))
+    .catch((err) => res.status(400).json("Error" + err));
+});
+
+
+
 
 
 module.exports = router;
